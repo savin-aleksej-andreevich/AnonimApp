@@ -11,6 +11,7 @@ import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.http.javadsl.server.AllDirectives;
 import akka.http.javadsl.server.Route;
+import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 import org.apache.zookeeper.CreateMode;
@@ -77,16 +78,7 @@ public class ServerNode extends AllDirectives {
                               HttpRequest.create(
                                       String.format("http://localhost:%d/?url=%s&count=%d",
                                               Integer.parseInt(
-                                                      (String) Patterns
-                                                              .ask(
-                                                                      cfg,
-                                                                      new ServerRequest(),
-                                                                      Duration.ofMillis(3000)
-                                                              )
-                                                              .toCompletableFuture()
-                                                              .join()),
-                                              url,
-                                              counter - 1
+                                                      
                               )
                       )
                     );
