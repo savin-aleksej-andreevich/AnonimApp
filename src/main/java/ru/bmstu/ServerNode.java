@@ -4,7 +4,9 @@ import akka.NotUsed;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import akka.http.javadsl.ConnectHttp;
 import akka.http.javadsl.Http;
+import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.http.javadsl.server.AllDirectives;
@@ -43,7 +45,16 @@ public class ServerNode extends AllDirectives {
         ServerNode instance = new ServerNode();
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow;
         routeFlow = instance.createRoute(system).flow(system, materializer);
-        final CompletionStage<S>
+        final CompletionStage<ServerBinding> binding = http.bindAndHandle(
+                routeFlow,
+                ConnectHttp.toHost("localhost", port),
+                materializer
+        );
+        System.out.println(String.format("Server online at http://localhost:%d/\nPress RETURN to stop...", port));
+        System.in.read();
+        binding
+                .thenCompose(ServerBinding::unbind)
+                .thenAccept(unbound -> system.terminate()); // and shutdown when done
     }
 
     private Route createRoute (ActorSystem system) {
@@ -53,6 +64,8 @@ public class ServerNode extends AllDirectives {
     }
 
     private Route get() {
-
+        return parametr("url", url ->
+                parameter()
+        )
     }
 }

@@ -4,6 +4,7 @@ import org.apache.zookeeper.KeeperException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ZAnonimApp {
     private static List<ServerNode> serverNodes;
