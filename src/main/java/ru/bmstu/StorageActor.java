@@ -19,4 +19,9 @@ public class StorageActor extends AbstractActor {
         int target = rand.nextInt(data.size());
         sender().tell(data.get(target), getSelf());
     }
+
+    private void saveServerList (ServerList list) {
+        data = new ArrayList<>(list.getData());
+        System.out.println(data);
+    }
 }
