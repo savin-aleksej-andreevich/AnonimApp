@@ -66,7 +66,7 @@ public class ServerNode extends AllDirectives {
     }
 
     private Route get() {
-        return parametr("url", url ->
+        return parameter("url", url ->
                 parameter("count", count -> {
                     int counter = Integer.parseInt(count);
                     final Http http = Http.get(system);
@@ -77,14 +77,23 @@ public class ServerNode extends AllDirectives {
                       http.singleRequest(
                               HttpRequest.create(
                                       String.format("http://localhost:%d/?url=%s&count=%d",
-                                              Integer.parseInt(
-                                                      Integer.parseInt (
-                                                              (String) Patterns)
-                                                      )
+
+                                              Integer.parseInt (
+                                                      (String) Patterns
+                                                              .ask (
+                                                                      cfg,
+                                                                      new ServerRequest(),
+                                                                      Duration.ofMillis(3000)
+                                                              )
+                                                              .toCompletableFuture()
+                                                              .join()),
+                                              url,
+                                              counter - 1
+                                      )
                               )
                       )
                     );
                 })
-        )
+        );
     }
 }
