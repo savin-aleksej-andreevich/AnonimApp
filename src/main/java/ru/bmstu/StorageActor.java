@@ -16,7 +16,7 @@ public class StorageActor extends AbstractActor {
 
     private void redirect(ServerRequest request) {
         Random rand = new Random();
-        int target = rand.nextInt(date.size());
-        sender().tell(data.get);
+        int target = rand.nextInt(data.size());
+        sender().tell(data.get(target), getSelf());
     }
 }
