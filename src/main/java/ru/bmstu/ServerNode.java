@@ -74,7 +74,8 @@ public class ServerNode extends AllDirectives {
                     return completeWithFuture(
                       http.singleRequest(
                               HttpRequest.create(
-                                      String.format("http://localhost:%d/?")
+                                      String.format("http://localhost:%d/?url=%s&count=%d",
+                                              Integer.parseInt())
                               )
                       )
                     );
