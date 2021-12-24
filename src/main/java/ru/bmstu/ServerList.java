@@ -1,2 +1,4 @@
-package ru.bmstu;public class ServerList {
+package ru.bmstu;
+
+public class ServerList {
 }
