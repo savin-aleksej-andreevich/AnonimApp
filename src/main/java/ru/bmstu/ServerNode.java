@@ -20,6 +20,7 @@ import org.apache.zookeeper.ZooKeeper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
 public class ServerNode extends AllDirectives {
@@ -75,7 +76,17 @@ public class ServerNode extends AllDirectives {
                       http.singleRequest(
                               HttpRequest.create(
                                       String.format("http://localhost:%d/?url=%s&count=%d",
-                                              Integer.parseInt())
+                                              Integer.parseInt(
+                                                      (String) Patterns
+                                                              .ask(
+                                                                      cfg,
+                                                                      new ServerRequest(),
+                                                                      Duration.ofMillis(3000)
+                                                              )
+                                                              .toCompletableFuture()
+                                                              .join()),
+                                              url,
+                                              counter - 1
                               )
                       )
                     );
