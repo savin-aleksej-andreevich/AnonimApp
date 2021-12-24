@@ -1,5 +1,7 @@
 package ru.bmstu;
 
+import java.util.*;
+
 public class ServerList {
     private List<String> data;
 
